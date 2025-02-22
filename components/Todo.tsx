@@ -1,5 +1,6 @@
 "use client";
 import { Todo as TodoType } from "@/app/todos/page";
+import DialogBox from "@/components/DialogBox";
 import { Button } from "./ui/button";
 
 function Todo({ title, completed }: TodoType) {
@@ -16,9 +17,10 @@ function Todo({ title, completed }: TodoType) {
                 {completed ? (
                     "Completed"
                 ) : (
-                    <Button variant="ghost" onClick={handleMarkComplete}>
-                        Mark it done
-                    </Button>
+                    // <Button variant="ghost" onClick={handleMarkComplete}>
+                    //     Mark it done
+                    // </Button>
+                    <DialogBox/>
                 )}
             </p>
         </div>
