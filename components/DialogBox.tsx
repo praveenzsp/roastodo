@@ -14,7 +14,7 @@ function DialogBox() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="secondary">Delete</Button>
+                <Button variant="destructive">Delete</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

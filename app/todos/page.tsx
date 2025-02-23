@@ -1,4 +1,5 @@
-import Todo from "@/components/Todo";
+
+import Todo, { AddTodo } from "@/components/Todo";
 import { JSX } from "react";
 
 
@@ -22,6 +23,7 @@ export default async function TodosPage(): Promise<JSX.Element> {
     return (
         <div className="flex flex-col justify-center items-center">
             <h1 className="text-4xl my-10">Here are your todos</h1>
+            <div className="mb-10"><AddTodo/></div>
             {todos.map((todo: Todo) => (
                 <Todo
                     key={todo.id}
