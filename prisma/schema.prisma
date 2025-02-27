@@ -17,4 +17,5 @@ model Todo {
   expiresAt DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  expired Boolean @default(false)
 }
