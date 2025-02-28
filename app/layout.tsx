@@ -17,7 +17,7 @@ export default function RootLayout({
         <html lang="en">
             <body
                 className=''
-                suppressHydrationWarning
+                suppressHydrationWarning={true}
             >
                 <ThemeProvider
                     attribute="class"
