@@ -19,12 +19,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useEffect } from "react"
 
-export function DatePickerWithPresets() {
+export function DatePickerWithPresets({onDateChange}:{onDateChange:(date:Date|null)=>void}) {
   const [date, setDate] = React.useState<Date>()
+  const [open, setOpen] = React.useState(false)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0) // Reset time to start of day
+
+  useEffect(()=>{
+    onDateChange(date ?? null);
+  },[date,onDateChange]);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -42,9 +50,10 @@ export function DatePickerWithPresets() {
         className="flex w-auto flex-col space-y-2 p-2"
       >
         <Select
-          onValueChange={(value) =>
-            setDate(addDays(new Date(), parseInt(value)))
-          }
+          onValueChange={(value) => {
+            setDate(addDays(today, parseInt(value)))
+            setOpen(false)
+          }}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select" />
@@ -57,7 +66,15 @@ export function DatePickerWithPresets() {
           </SelectContent>
         </Select>
         <div className="rounded-md border">
-          <Calendar mode="single" selected={date} onSelect={setDate} />
+          <Calendar 
+            mode="single" 
+            selected={date} 
+            onSelect={(date) => {
+              setDate(date)
+              setOpen(false)
+            }}
+            fromDate={today}
+          />
         </div>
       </PopoverContent>
     </Popover>

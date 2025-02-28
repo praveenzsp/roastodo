@@ -9,10 +9,23 @@ import { SquarePlus } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { DatePickerWithPresets } from "./DatePicker";
+import { useState } from "react";
 
 function AddTodoPopover() {
+    const [open, setOpen] = useState(false);
+    const [todo, setTodo] = useState("");
+    const [date, setDate] = useState<Date | null>(null);
+
+    const handleAddTodo = () => {
+        alert("Todo added"+todo+" "+date);
+        setOpen(false);
+        // Reset the form
+        setTodo("");
+        setDate(null);
+    };
+
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button variant="outline">
                     <SquarePlus />
@@ -20,7 +33,13 @@ function AddTodoPopover() {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="">
-                <AddTodoForm />
+                <AddTodoForm 
+                    todo={todo}
+                    setTodo={setTodo}
+                    // date={date}
+                    setDate={setDate}
+                    onSubmit={handleAddTodo}
+                />
             </PopoverContent>
         </Popover>
     );
@@ -28,7 +47,23 @@ function AddTodoPopover() {
 
 export default AddTodoPopover;
 
-function AddTodoForm() {
+function AddTodoForm({
+    todo,
+    setTodo,
+    // date,
+    setDate,
+    onSubmit
+}: {
+    todo: string;
+    setTodo: (todo: string) => void;
+    // date: Date | null;
+    setDate: (date: Date | null) => void;
+    onSubmit: () => void;
+}) {
+    const handleDateChange = (date: Date | null) => {
+        setDate(date);
+    }
+
     return (
         <div className="grid gap-6">
             <div className="space-y-2">
@@ -44,14 +79,17 @@ function AddTodoForm() {
                         id="todo"
                         placeholder="Go to gym"
                         className=" w-60 h-8"
+                        required={true}
+                        value={todo}
+                        onChange={(e) => setTodo(e.target.value)}
                     />
                 </div>
                 <div>
-                    <DatePickerWithPresets />
+                    <DatePickerWithPresets onDateChange={handleDateChange} />
                 </div>
             </div>
             <div>
-                <Button variant="secondary">ADD</Button>
+                <Button variant="secondary" onClick={onSubmit}>ADD</Button>
             </div>
         </div>
     );
