@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import prisma from "@/db";
 
 export async function addTodo(todoTitle: string, expiryDate: Date | string) {
@@ -18,6 +19,9 @@ export async function addTodo(todoTitle: string, expiryDate: Date | string) {
                   },
             });
 
+            // This tells Next.js to revalidate the cache for the /todos route
+            revalidatePath("/todos");
+            
             return { todo, success: true };
 
       } catch (error) {
@@ -40,12 +44,13 @@ export async function getTodos() {
       }
 }
 
-export async function updateTodo(id: string, data: { title?: string; expiresAt?: Date }) {
+export async function updateTodo(id: number, data: { title?: string; expiresAt?: Date }) {
       try {
             const todo = await prisma.todo.update({
                   where: { id },
                   data
             });
+            revalidatePath("/todos");
             return { todo, success: true };
       } catch (error) {
             console.error("Failed to update todo:", error);
@@ -53,7 +58,7 @@ export async function updateTodo(id: string, data: { title?: string; expiresAt?:
       }
 }
 
-export async function deleteTodo(id: string) {
+export async function deleteTodo(id: number) {
       try {
             if (!id) {
                   return { error: "Todo ID is required", success: false };
@@ -62,6 +67,7 @@ export async function deleteTodo(id: string) {
             const todo = await prisma.todo.delete({
                   where: { id }
             });
+            revalidatePath("/todos");
             return { todo, success: true };
       } catch (error) {
             console.error("Failed to delete todo:", error);

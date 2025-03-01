@@ -1,7 +1,7 @@
 import AddTodoPopover from "@/components/AddTodoPopover";
 import Todo from "@/components/Todo";
 import { JSX } from "react";
-import axios from "axios";
+import { getTodos } from "@/actions/todo";
 
 export interface Todo {
       id: number;
@@ -10,14 +10,7 @@ export interface Todo {
       expiresAt: Date;
       expired: boolean;
 }
-interface Todos {
-      todos: Todo[];
-}
-async function getTodos(): Promise<Todos> {
-      const response = await axios.get("http://localhost:3000/api/todos");
-      const todos = response.data;
-      return todos;
-}
+
 
 export default async function TodosPage(): Promise<JSX.Element> {
       let { todos } = await getTodos();
@@ -28,7 +21,7 @@ export default async function TodosPage(): Promise<JSX.Element> {
                   <div className="mb-5">
                         <AddTodoPopover />
                   </div>
-                  {todos.map((todo: Todo) => (
+                  {todos?.map((todo) => (
                         <Todo
                               key={todo.id}
                               id={todo.id}

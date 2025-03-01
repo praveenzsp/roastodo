@@ -5,10 +5,6 @@ import { Button } from "./ui/button";
 import { SquarePlus } from "lucide-react";
 
 function Todo({ title, completed, expiresAt, expired }: TodoType) {
-      // const handleMarkComplete = () => {
-      //     alert("Marked as completed");
-      // };
-
       const calculateMinutesLeft = () => {
             const now = new Date();
             const expiryDate = new Date(expiresAt);

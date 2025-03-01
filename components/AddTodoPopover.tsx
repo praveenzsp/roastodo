@@ -10,16 +10,23 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { DatePickerWithPresets } from "./DatePicker";
 import { useState } from "react";
+import { addTodo } from "@/actions/todo";
 
 function AddTodoPopover() {
     const [open, setOpen] = useState(false);
     const [todo, setTodo] = useState("");
     const [date, setDate] = useState<Date | null>(null);
 
-    const handleAddTodo = () => {
-        alert("Todo added"+todo+" "+date);
+    const handleAddTodo = async () => {
+        if (!todo || !date) {
+            return;
+        }
+        const result = await addTodo(todo, date);
+        if (!result.success) {
+            console.error(result.error);
+            return;
+        }
         setOpen(false);
-        // Reset the form
         setTodo("");
         setDate(null);
     };
@@ -36,7 +43,6 @@ function AddTodoPopover() {
                 <AddTodoForm 
                     todo={todo}
                     setTodo={setTodo}
-                    // date={date}
                     setDate={setDate}
                     onSubmit={handleAddTodo}
                 />
@@ -50,13 +56,11 @@ export default AddTodoPopover;
 function AddTodoForm({
     todo,
     setTodo,
-    // date,
     setDate,
     onSubmit
 }: {
     todo: string;
     setTodo: (todo: string) => void;
-    // date: Date | null;
     setDate: (date: Date | null) => void;
     onSubmit: () => void;
 }) {
