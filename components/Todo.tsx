@@ -81,7 +81,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                         {!isExpired() && !completed && (
                               <Button variant="ghost">Edit</Button>
                         )}
-                        <p className="ml-5">
+                        <div className="ml-5">
                               {isExpired() ? (
                                     <DialogBox />
                               ) : completed ? (
@@ -99,7 +99,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                                           Mark it done
                                     </Button>
                               )}
-                        </p>
+                        </div>
                   </div>
             </>
       );
