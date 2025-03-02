@@ -4,6 +4,7 @@ import DialogBox from "@/components/DialogBox";
 import { Button } from "./ui/button";
 import { SquarePlus, Trash } from "lucide-react";
 import { deleteTodo, updateTodo } from "@/actions/todo";
+import EditTodoPopover from "./EditTodoPopover";
 
 function Todo({ id, title, expiresAt, completed }: TodoType) {
       const calculateMinutesLeft = () => {
@@ -79,7 +80,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                         )}
 
                         {!isExpired() && !completed && (
-                              <Button variant="ghost">Edit</Button>
+                              <EditTodoPopover id={id} currentTitle={title} currentExpiryDate={expiresAt} />
                         )}
                         <div className="ml-5">
                               {isExpired() ? (
