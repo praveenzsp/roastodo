@@ -64,7 +64,7 @@ function EditTodoPopover({
 export default EditTodoPopover;
 
 function EditTodoForm({
-      todo,
+    //   todo,
       setTodo,
       setDate,
       onSubmit,
@@ -100,7 +100,7 @@ function EditTodoForm({
                                     placeholder="Go to gym"
                                     className=" w-60 h-8"
                                     required={true}
-                                    value={todo}
+                                    // value={todo}
                                     onChange={(e) => setTodo(e.target.value)}
                                     defaultValue={currentTitle}
                               />
