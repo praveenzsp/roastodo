@@ -12,9 +12,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
             const expiryDate = new Date(expiresAt);
             // Set expiry to 11:59 PM of the selected date
             expiryDate.setHours(23, 59, 59, 999);
-
             const diff = expiryDate.getTime() - now.getTime();
-
             const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hoursLeft = Math.floor(
                   (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -22,7 +20,6 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
             const minutesLeft = Math.floor(
                   (diff % (1000 * 60 * 60)) / (1000 * 60)
             );
-
             return {
                   days: Math.max(0, daysLeft),
                   hours: Math.max(0, hoursLeft),
@@ -80,21 +77,28 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                         )}
 
                         {!isExpired() && !completed && (
-                              <EditTodoPopover id={id} currentTitle={title} currentExpiryDate={expiresAt} />
+                              <EditTodoPopover
+                                    id={id}
+                                    currentTitle={title}
+                                    currentExpiryDate={expiresAt}
+                              />
                         )}
                         <div className="ml-5">
                               {isExpired() ? (
-                                    <DialogBox />
+                                    <DialogBox id={id} todoTitle={title} />
                               ) : completed ? (
                                     <div className="flex flex-row items-center justify-center gap-6">
                                           <p>Done</p>
-                                          <Button variant="ghost" onClick={handleDeleteTodo}>
+                                          <Button
+                                                variant="ghost"
+                                                onClick={handleDeleteTodo}
+                                          >
                                                 <Trash />
                                           </Button>
                                     </div>
                               ) : (
                                     <Button
-                                          variant="ghost"
+                                          variant="outline"
                                           onClick={handleMarkComplete}
                                     >
                                           Mark it done

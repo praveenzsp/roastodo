@@ -1,43 +1,81 @@
+"use client";
+import { generateRoast } from "@/actions/roast";
+import { deleteTodo } from "@/actions/todo";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+      Dialog,
+      DialogContent,
+      DialogDescription,
+      DialogFooter,
+      DialogHeader,
+      DialogTitle,
+      DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
 
-function DialogBox() {
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="destructive">Delete</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                    <DialogTitle>A sweet message</DialogTitle>
-                    <DialogDescription className="text-gray-300">
-                        Since you&apos;re so busy all day, here&apos;s a small
-                        message for you
-                    </DialogDescription>
-                </DialogHeader>
-                <div>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur tempora nobis ducimus iusto aut in consectetur culpa nesciunt aperiam. Minima tempore, nesciunt veritatis esse eligendi itaque laboriosam quia aperiam eos.</p><br></br>
-					<p className="text-gray-300 text-sm">So do you regret not completing it?</p>
-				</div>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="submit" variant="secondary">
-                            Yes, I regret
+function DialogBox({ id, todoTitle }: { id: number, todoTitle: string }) {
+    const [roast, setRoast] = useState<string>("");
+
+    useEffect(()=>{
+        const fetchRoast = async ()=>{
+            const result = await generateRoast({todoTitle: todoTitle});
+            // console.log(result);
+            if(result.success){
+                setRoast(result.roast || "");
+            }
+            else{
+                setRoast("Failed to generate roast");
+            }
+        }
+        fetchRoast();
+    }, [todoTitle])
+
+      const handleDeleteTodo = async () => {
+            const result = await deleteTodo(id);
+            if (result.success) {
+                  alert("Todo deleted");
+            } else {
+                  alert("Failed to delete todo");
+            }
+      };
+      return (
+            <Dialog>
+                  <DialogTrigger asChild>
+                        <Button
+                              variant="destructive"
+                        >
+                              Delete
                         </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    );
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+                        <DialogHeader>
+                              <DialogTitle>A sweet message</DialogTitle>
+                              <DialogDescription className="text-gray-300">
+                                    Since you&apos;re so busy all day,
+                                    here&apos;s a small message for you
+                              </DialogDescription>
+                        </DialogHeader>
+                        <div>
+                              <p>
+                                    {roast}
+                              </p>
+                              <br></br>
+                              <p className="text-gray-300 text-sm">
+                                    So do you regret not completing it?
+                              </p>
+                        </div>
+                        <DialogFooter>
+                              <Button 
+                                    type="submit" 
+                                    variant="secondary" 
+                                    onClick={handleDeleteTodo}
+                              >
+                                    Yes, I regret
+                              </Button>
+                        </DialogFooter>
+                  </DialogContent>
+            </Dialog>
+      );
 }
 
 export default DialogBox;

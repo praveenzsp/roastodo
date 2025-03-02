@@ -64,12 +64,11 @@ function EditTodoPopover({
 export default EditTodoPopover;
 
 function EditTodoForm({
-    //   todo,
       setTodo,
       setDate,
       onSubmit,
       currentTitle,
-}: // currentExpiryDate
+}:
 {
       todo: string;
       setTodo: (todo: string) => void;
