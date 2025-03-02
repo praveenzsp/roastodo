@@ -13,8 +13,8 @@ export interface Todo {
 
 
 export default async function TodosPage(): Promise<JSX.Element> {
-      let { todos } = await getTodos();
-      todos = todos?.filter((todo) => todo.completed == false);
+      const { todos } = await getTodos();
+      // todos = todos?.filter((todo) => todo.completed == false);
       return (
             <div className="flex flex-col justify-center items-center">
                   <h1 className="text-4xl my-10">Here are your todos</h1>

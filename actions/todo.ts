@@ -44,7 +44,7 @@ export async function getTodos() {
       }
 }
 
-export async function updateTodo(id: number, data: { title?: string; expiresAt?: Date }) {
+export async function updateTodo(id: number, data: { title?: string; expiresAt?: Date; completed?: boolean }) {
       try {
             const todo = await prisma.todo.update({
                   where: { id },
