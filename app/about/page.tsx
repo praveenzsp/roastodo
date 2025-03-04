@@ -1,4 +1,9 @@
-export default function AboutPage() {
+import { auth } from "@/auth"
+
+export default async function AboutPage() {
+  const session = await auth()
+
+  if(!session) return <div>You are not logged in</div>
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">About RoasTodo</h1>

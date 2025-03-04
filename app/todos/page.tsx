@@ -2,7 +2,7 @@ import AddTodoPopover from "@/components/AddTodoPopover";
 import Todo from "@/components/Todo";
 import { JSX } from "react";
 import { getTodos } from "@/actions/todo";
-
+import { auth } from "@/auth";
 export interface Todo {
       id: number;
       title: string;
@@ -13,6 +13,12 @@ export interface Todo {
 
 
 export default async function TodosPage(): Promise<JSX.Element> {
+
+      const session = await auth();
+      if (!session) {
+            return <div>Not authorized</div>;
+      }
+
       const { todos } = await getTodos();
       // todos = todos?.filter((todo) => todo.completed == false);
       return (
