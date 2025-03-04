@@ -6,6 +6,7 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetTitle,
 } from "@/components/ui/sheet"
 
 // async function handleSignOut() {
@@ -43,6 +44,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent>
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <div className="flex flex-col space-y-4 mt-4">
                 <Link href="/about">
                   <Button variant="ghost" className="w-full justify-start">
