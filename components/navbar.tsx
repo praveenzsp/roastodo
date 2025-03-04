@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Moon, Sun } from "lucide-react";
 import {
       Sheet,
       SheetContent,
@@ -9,8 +9,14 @@ import {
       SheetTitle,
 } from "@/components/ui/sheet";
 import { handleSignOut } from "@/actions/auth";
+import { useTheme } from "next-themes";
+import { useState } from "react";
 
 export function Navbar() {
+
+      const { setTheme } = useTheme();
+      const [isDark, setIsDark] = useState(true);
+      console.log(isDark);
       const onSignOut = async () => {
             try {
                   await handleSignOut();
@@ -18,6 +24,11 @@ export function Navbar() {
                   console.error('Error during signout:', error);
             }
       };
+
+      const handleThemeToggle = () => {
+            setTheme(isDark ? "light" : "dark");
+            setIsDark(!isDark);
+      }
 
       return (
             <nav className="border-b">
@@ -34,7 +45,12 @@ export function Navbar() {
                               <Link href="/todos">
                                     <Button variant="ghost">My Todos</Button>
                               </Link>
-                              <Button variant="ghost" onClick={onSignOut}>Logout</Button>
+                              <Button onClick={handleThemeToggle} variant="outline">
+                                    {
+                                          isDark ? <Sun /> : <Moon />
+                                    }
+                              </Button>
+                              <Button variant="destructive" onClick={onSignOut}>Logout</Button>
                         </div>
 
                         {/* Mobile Navigation */}
@@ -67,7 +83,7 @@ export function Navbar() {
                                                       </Button>
                                                 </Link>
                                                 <Button
-                                                      variant="ghost"
+                                                      variant="destructive"
                                                       className="w-full justify-start"
                                                       onClick={onSignOut}
                                                 >
