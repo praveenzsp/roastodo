@@ -50,7 +50,7 @@ export function Navbar() {
                                           isDark ? <Sun /> : <Moon />
                                     }
                               </Button>
-                              <Button variant="destructive" onClick={onSignOut}>Logout</Button>
+                              <Button variant="outline" className="hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={onSignOut}>Logout</Button>
                         </div>
 
                         {/* Mobile Navigation */}

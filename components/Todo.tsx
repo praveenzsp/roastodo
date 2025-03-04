@@ -2,9 +2,10 @@
 import { Todo as TodoType } from "@/app/todos/page";
 import DialogBox from "@/components/DialogBox";
 import { Button } from "./ui/button";
-import { SquarePlus, Trash } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, SquarePlus, Trash } from "lucide-react";
 import { deleteTodo, updateTodo } from "@/actions/todo";
 import EditTodoPopover from "./EditTodoPopover";
+import { cn } from "@/lib/utils";
 
 function Todo({ id, title, expiresAt, completed }: TodoType) {
       const calculateMinutesLeft = () => {
@@ -53,29 +54,56 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
       };
 
       return (
-            <>
-                  <div
-                        className={`flex flex-row border-[1px] ${
-                              isExpired() ? "border-red-500" : "border-gray-300"
-                        } p-4 my-2 rounded-md justify-between md:w-[80vw] w-[90vw] items-center`}
-                  >
-                        <h2 className="flex-1">{title}</h2>
-
-                        {!completed && !isExpired() && (
-                              <p className="mx-2 md:mx-10">
-                                    {calculateMinutesLeft().days > 0
-                                          ? `${calculateMinutesLeft().days}d ${
-                                                  calculateMinutesLeft().hours
-                                            }h left`
-                                          : `${calculateMinutesLeft().hours}h ${
-                                                  calculateMinutesLeft().minutes
-                                            }m left`}
-                              </p>
+            <div
+                  className={cn(
+                        "group relative flex flex-row items-center justify-between",
+                        "rounded-lg border bg-card p-4 shadow-sm transition-all",
+                        "hover:shadow-md",
+                        "my-3 md:w-[50vw] w-[90vw]",
+                        {
+                              "border-orange-500/30 bg-orange-500/5 dark:border-orange-400/20 dark:bg-orange-400/5": isExpired(),
+                              "border-muted bg-muted/50": completed,
+                              "border-border": !isExpired() && !completed,
+                        }
+                  )}
+            >
+                  <div className="flex flex-1 items-center gap-4">
+                        {completed ? (
+                              <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        ) : (
+                              isExpired() ? (
+                                    <AlertCircle className="h-5 w-5 text-orange-500 dark:text-orange-400" />
+                              ) : (
+                                    <Clock className="h-5 w-5 text-muted-foreground" />
+                              )
                         )}
-                        {isExpired() && (
-                              <p className="mx-2 md:mx-10">Expired</p>
-                        )}
+                        <h2 className={cn(
+                              "font-medium",
+                              completed && "text-muted-foreground line-through",
+                              isExpired() && "text-orange-600 dark:text-orange-400"
+                        )}>
+                              {title}
+                        </h2>
+                  </div>
 
+                  {!completed && !isExpired() && (
+                        <p className="mx-2 md:mx-10 text-sm text-muted-foreground">
+                              {calculateMinutesLeft().days > 0
+                                    ? `${calculateMinutesLeft().days}d ${
+                                            calculateMinutesLeft().hours
+                                      }h left`
+                                    : `${calculateMinutesLeft().hours}h ${
+                                            calculateMinutesLeft().minutes
+                                      }m left`}
+                        </p>
+                  )}
+                  {isExpired() && (
+                        <p className="mx-2 md:mx-10 text-sm font-medium text-orange-600 dark:text-orange-400">
+                              Expired
+                        </p>
+                  )}
+
+                  <div className="flex items-center gap-2">
                         {!isExpired() && !completed && (
                               <EditTodoPopover
                                     id={id}
@@ -83,30 +111,31 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                                     currentExpiryDate={expiresAt}
                               />
                         )}
-                        <div className="ml-5">
-                              {isExpired() ? (
-                                    <DialogBox id={id} todoTitle={title} />
-                              ) : completed ? (
-                                    <div className="flex flex-row items-center justify-center gap-6">
-                                          <p>Done</p>
-                                          <Button
-                                                variant="ghost"
-                                                onClick={handleDeleteTodo}
-                                          >
-                                                <Trash />
-                                          </Button>
-                                    </div>
-                              ) : (
-                                    <Button
-                                          variant="outline"
-                                          onClick={handleMarkComplete}
-                                    >
-                                          Mark it done
-                                    </Button>
-                              )}
-                        </div>
+                        
+                        {isExpired() ? (
+                              <DialogBox id={id} todoTitle={title} />
+                        ) : completed ? (
+                              <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={handleDeleteTodo}
+                                    className="text-muted-foreground hover:text-destructive"
+                              >
+                                    <Trash className="h-4 w-4" />
+                              </Button>
+                        ) : (
+                              <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleMarkComplete}
+                                    className="gap-2"
+                              >
+                                    <CheckCircle2 className="h-4 w-4" />
+                                    Complete
+                              </Button>
+                        )}
                   </div>
-            </>
+            </div>
       );
 }
 
@@ -114,8 +143,9 @@ export default Todo;
 
 export function AddTodo() {
       return (
-            <Button variant="outline">
-                  <SquarePlus /> Add Todo
+            <Button variant="outline" className="gap-2">
+                  <SquarePlus className="h-5 w-5" />
+                  Add Todo
             </Button>
       );
 }
