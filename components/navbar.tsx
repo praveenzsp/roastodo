@@ -31,7 +31,7 @@ export function Navbar() {
       }
 
       return (
-            <nav className="border-b">
+            <nav className="border-b bg-transparent rounded-xl">
                   <div className="flex h-16 items-center px-4 container mx-auto">
                         <Link href="/" className="font-bold text-xl">
                               RoasTodo
