@@ -11,6 +11,7 @@ import { Label } from "./ui/label";
 import { DatePickerWithPresets } from "./DatePicker";
 import { useState } from "react";
 import { updateTodo } from "@/actions/todo";
+import { toast } from 'react-toastify';
 
 function EditTodoPopover({
       id,
@@ -27,19 +28,29 @@ function EditTodoPopover({
 
       const handleEditTodo = async () => {
             if (!todo || !date) {
+                  toast.warning("Please fill in all fields");
                   return;
             }
-            const result = await updateTodo(id, {
-                  title: todo,
-                  expiresAt: date,
-            });
-            if (!result.success) {
-                  console.error(result.error);
-                  return;
+
+            try {
+                  const result = await updateTodo(id, {
+                        title: todo,
+                        expiresAt: date,
+                  });
+                  
+                  if (!result.success) {
+                        toast.error(result.error || "Failed to update todo");
+                        return;
+                  }
+
+                  toast.success("Todo updated successfully! 📝");
+                  setOpen(false);
+                  setTodo("");
+                  setDate(null);
+            } catch (error) {
+                  console.error(error);
+                  toast.error("An error occurred while updating the todo");
             }
-            setOpen(false);
-            setTodo("");
-            setDate(null);
       };
 
       return (

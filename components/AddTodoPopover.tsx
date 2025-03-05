@@ -11,6 +11,7 @@ import { Label } from "./ui/label";
 import { DatePickerWithPresets } from "./DatePicker";
 import { useState } from "react";
 import { addTodo } from "@/actions/todo";
+import { toast } from 'react-toastify';
 
 function AddTodoPopover() {
     const [open, setOpen] = useState(false);
@@ -19,16 +20,25 @@ function AddTodoPopover() {
 
     const handleAddTodo = async () => {
         if (!todo || !date) {
+            toast.warning("Please fill in all fields");
             return;
         }
-        const result = await addTodo(todo, date);
-        if (!result.success) {
-            console.error(result.error);
-            return;
+
+        try {
+            const result = await addTodo(todo, date);
+            if (!result.success) {
+                toast.error(result.error || "Failed to create todo");
+                return;
+            }
+
+            toast.success("Todo added successfully! 🚀");
+            setOpen(false);
+            setTodo("");
+            setDate(null);
+        } catch (error) {
+            console.error(error);
+            toast.error("An error occurred while creating the todo");
         }
-        setOpen(false);
-        setTodo("");
-        setDate(null);
     };
 
     return (

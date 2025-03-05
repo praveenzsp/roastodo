@@ -7,6 +7,7 @@ import { deleteTodo, updateTodo } from "@/actions/todo";
 import EditTodoPopover from "./EditTodoPopover";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from 'react-toastify';
 
 function Todo({ id, title, expiresAt, completed }: TodoType) {
       const calculateMinutesLeft = () => {
@@ -35,22 +36,35 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
       };
 
       const handleMarkComplete = async () => {
-            // alert("Marking as complete");
-            const updateResult = await updateTodo(id, {
-                  completed: true,
-            });
+            try {
+                  const updateResult = await updateTodo(id, {
+                        completed: true,
+                  });
 
-            if (!updateResult.success) {
-                  alert("Failed to mark todo as complete");
-                  return;
+                  if (!updateResult.success) {
+                        toast.error("Failed to mark todo as complete");
+                        return;
+                  }
+                  
+                  toast.success("Todo marked as complete! 🎉");
+            } catch (error) {
+                  console.error(error);
+                  toast.error("An error occurred while updating the todo");
             }
       };
 
       const handleDeleteTodo = async () => {
-            const deleteResult = await deleteTodo(id);
-            if (!deleteResult.success) {
-                  alert("Failed to delete todo");
-                  return;
+            try {
+                  const deleteResult = await deleteTodo(id);
+                  if (!deleteResult.success) {
+                        toast.error("Failed to delete todo");
+                        return;
+                  }
+                  
+                  toast.success("Todo deleted successfully");
+            } catch (error) {
+                  console.error(error);
+                  toast.error("An error occurred while deleting the todo");
             }
       };
 

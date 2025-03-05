@@ -12,6 +12,7 @@ import {
       DialogTrigger,
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function DialogBox({ id, todoTitle }: { id: number, todoTitle: string }) {
     const [roast, setRoast] = useState<string>("");
@@ -33,9 +34,9 @@ function DialogBox({ id, todoTitle }: { id: number, todoTitle: string }) {
       const handleDeleteTodo = async () => {
             const result = await deleteTodo(id);
             if (result.success) {
-                  alert("Todo deleted");
+                  toast.success("Todo deleted successfully");
             } else {
-                  alert("Failed to delete todo");
+                  toast.error("Failed to delete todo");
             }
       };
       return (
