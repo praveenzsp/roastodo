@@ -8,6 +8,7 @@ import EditTodoPopover from "./EditTodoPopover";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from 'react-toastify';
+import { toastConfig } from '@/lib/toast-config';
 
 function Todo({ id, title, expiresAt, completed }: TodoType) {
       const calculateMinutesLeft = () => {
@@ -46,7 +47,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                         return;
                   }
                   
-                  toast.success("Todo marked as complete! 🎉");
+                  toast.success("Todo marked as complete! 🎉", toastConfig);
             } catch (error) {
                   console.error(error);
                   toast.error("An error occurred while updating the todo");

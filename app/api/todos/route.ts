@@ -72,7 +72,7 @@ export async function DELETE(request: Request) {
 
         const todo = await prisma.todo.delete({
             where: {
-                id: id
+                id: parseInt(id)
             }
         });
 
