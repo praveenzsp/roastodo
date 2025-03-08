@@ -7,5 +7,5 @@ export default async function Home() {
     if (!session) {
         redirect("/signin")
     }
-    return <Hero />;
+    return <Hero  email={session?.user?.email}/>;
 }

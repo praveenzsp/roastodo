@@ -14,13 +14,13 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-function DialogBox({ id, todoTitle }: { id: number, todoTitle: string }) {
+function DialogBox({ id, todoTitle, userEmail }: { id: number, todoTitle: string, userEmail: string }) {
     const [roast, setRoast] = useState<string>("");
 
     useEffect(()=>{
         const fetchRoast = async ()=>{
             const result = await generateRoast({todoTitle: todoTitle});
-            // console.log(result);
+
             if(result.success){
                 setRoast(result.roast || "");
             }
@@ -32,7 +32,7 @@ function DialogBox({ id, todoTitle }: { id: number, todoTitle: string }) {
     }, [todoTitle])
 
       const handleDeleteTodo = async () => {
-            const result = await deleteTodo(id);
+            const result = await deleteTodo(id, userEmail);
             if (result.success) {
                   toast.success("Todo deleted successfully");
             } else {

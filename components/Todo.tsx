@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from 'react-toastify';
 import { toastConfig } from '@/lib/toast-config';
 
-function Todo({ id, title, expiresAt, completed }: TodoType) {
+function Todo({ id, title, expiresAt, completed, userEmail }: TodoType) {
       const calculateMinutesLeft = () => {
             const now = new Date();
             const expiryDate = new Date(expiresAt);
@@ -38,7 +38,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
 
       const handleMarkComplete = async () => {
             try {
-                  const updateResult = await updateTodo(id, {
+                  const updateResult = await updateTodo(id, userEmail, {
                         completed: true,
                   });
 
@@ -56,7 +56,7 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
 
       const handleDeleteTodo = async () => {
             try {
-                  const deleteResult = await deleteTodo(id);
+                  const deleteResult = await deleteTodo(id, userEmail);
                   if (!deleteResult.success) {
                         toast.error("Failed to delete todo");
                         return;
@@ -164,13 +164,14 @@ function Todo({ id, title, expiresAt, completed }: TodoType) {
                               {!isExpired() && !completed && (
                                     <EditTodoPopover
                                           id={id}
+                                          userEmail={userEmail}
                                           currentTitle={title}
                                           currentExpiryDate={expiresAt}
                                     />
                               )}
                               
                               {isExpired() ? (
-                                    <DialogBox id={id} todoTitle={title} />
+                                    <DialogBox id={id} todoTitle={title} userEmail={userEmail} />
                               ) : completed ? (
                                     <motion.div whileTap={{ scale: 0.95 }}>
                                           <Button

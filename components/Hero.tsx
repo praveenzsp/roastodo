@@ -3,10 +3,20 @@
 import Button from "./GetStartedButton";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Sparkles, Zap } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import SplineModel from "./SplineModel";
 import { useTheme } from "next-themes";
-export default function Hero() {
+import { createUser } from "@/actions/user";
+
+
+export default function Hero({ email }: { email: string | null | undefined }) {
+
+      useEffect(() => {
+            if (email) {
+                  createUser(email);
+            }
+      }, [email]);
+      
       const ref = useRef(null);
       const { theme } = useTheme();
       const features = [

@@ -8,7 +8,14 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-        
+
+model User {
+  id        Int   @id @default(autoincrement())
+  email     String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  todos     Todo[]
+}
 
 model Todo {
   id        Int   @id @default(autoincrement())
@@ -18,4 +25,6 @@ model Todo {
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
   expired Boolean @default(false)
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }

@@ -7,6 +7,11 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function SignInPage() {
+
+      const handleSignIn = async () => {
+            await signIn("google", { callbackUrl: "/" });
+      };
+
       return (
             <main className="flex min-h-screen relative items-center justify-center p-4">
                   {/* Background Elements */}
@@ -101,12 +106,7 @@ export default function SignInPage() {
                                           >
                                                 <Button
                                                       variant="outline"
-                                                      onClick={() =>
-                                                            signIn("google", {
-                                                                  callbackUrl:
-                                                                        "/",
-                                                            })
-                                                      }
+                                                      onClick={handleSignIn}
                                                       className="w-full relative group hover:border-primary/50 transition-colors"
                                                 >
                                                       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />

@@ -13,10 +13,11 @@ import { useState } from "react";
 import { addTodo } from "@/actions/todo";
 import { toast } from 'react-toastify';
 
-function AddTodoPopover() {
+function AddTodoPopover({ userEmail }: { userEmail: string }) {
     const [open, setOpen] = useState(false);
     const [todo, setTodo] = useState("");
     const [date, setDate] = useState<Date | null>(null);
+
 
     const handleAddTodo = async () => {
         if (!todo || !date) {
@@ -25,7 +26,7 @@ function AddTodoPopover() {
         }
 
         try {
-            const result = await addTodo(todo, date);
+            const result = await addTodo(todo, date, userEmail);
             if (!result.success) {
                 toast.error(result.error || "Failed to create todo");
                 return;

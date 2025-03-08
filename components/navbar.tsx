@@ -16,7 +16,7 @@ export function Navbar() {
 
       const { setTheme } = useTheme();
       const [isDark, setIsDark] = useState(true);
-      console.log(isDark);
+
       const onSignOut = async () => {
             try {
                   await handleSignOut();
@@ -39,17 +39,17 @@ export function Navbar() {
 
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-4 ml-auto">
-                              <Link href="/about">
+                              {/* <Link href="/about">
                                     <Button variant="ghost">About</Button>
-                              </Link>
-                              <Link href="/todos">
-                                    <Button variant="ghost">My Todos</Button>
-                              </Link>
+                              </Link> */}
                               <Button onClick={handleThemeToggle} variant="outline">
                                     {
                                           isDark ? <Sun /> : <Moon />
                                     }
                               </Button>
+                              <Link href="/todos">
+                                    <Button variant="ghost">My Todos</Button>
+                              </Link>
                               <Button variant="outline" className="hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={onSignOut}>Logout</Button>
                         </div>
 
@@ -66,14 +66,14 @@ export function Navbar() {
                                                 Navigation Menu
                                           </SheetTitle>
                                           <div className="flex flex-col space-y-4 mt-4">
-                                                <Link href="/about">
+                                                {/* <Link href="/about">
                                                       <Button
                                                             variant="ghost"
                                                             className="w-full justify-start"
                                                       >
                                                             About
                                                       </Button>
-                                                </Link>
+                                                </Link> */}
                                                 <Link href="/todos">
                                                       <Button
                                                             variant="ghost"

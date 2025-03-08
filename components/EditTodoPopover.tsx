@@ -17,10 +17,12 @@ function EditTodoPopover({
       id,
       currentTitle,
       currentExpiryDate,
+      userEmail,
 }: {
       id: number;
       currentTitle: string;
       currentExpiryDate: Date;
+      userEmail: string;
 }) {
       const [open, setOpen] = useState(false);
       const [todo, setTodo] = useState(currentTitle);
@@ -33,7 +35,7 @@ function EditTodoPopover({
             }
 
             try {
-                  const result = await updateTodo(id, {
+                  const result = await updateTodo(id, userEmail, {
                         title: todo,
                         expiresAt: date,
                   });

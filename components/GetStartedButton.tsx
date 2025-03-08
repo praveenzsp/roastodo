@@ -1,6 +1,8 @@
 "use client";
+import { ChevronRight } from "lucide-react";
 import { Button as CustomButton } from "./ui/button";
 import { useRouter } from "next/navigation";
+
 
 export default function Button({ text }: { text: string }) {
     const navigate = useRouter();
@@ -8,8 +10,9 @@ export default function Button({ text }: { text: string }) {
         navigate.push("/todos");
     };
     return (
-        <CustomButton variant="secondary" onClick={handleGetStarted}>
+        <CustomButton variant="default" onClick={handleGetStarted}>
             {text}
+            <ChevronRight />
         </CustomButton>
     );
 }
