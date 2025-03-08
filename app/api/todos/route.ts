@@ -25,6 +25,11 @@ export async function POST(request: Request) {
                 title: body.title,
                 completed: false,
 				expiresAt: body.expiresAt,
+                user: {
+                    connect: {
+                        id: body.userId
+                    }
+                }
             },
         });
         return NextResponse.json(todo, { status: 201 });
